@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+
+# Flask
+instance/
+.webassets-cache
+
+# Database
+*.db-journal
+
+# 自动生成的目录（由 deploy.py 创建）
+backend/templates/
+backend/static/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
