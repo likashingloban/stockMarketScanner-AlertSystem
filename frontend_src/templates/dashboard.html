@@ -7,78 +7,155 @@
 <div class="container mt-4">
     <!-- Welcome Section -->
     <div class="mb-4">
-        <h2 class="mb-2">Welcome back, {{ current_user.username }}!</h2>
+        <h2 class="mb-2 text-gradient">Welcome back, {{ current_user.username }}!</h2>
         <p class="text-muted">Here's your stock portfolio overview</p>
     </div>
 
     <!-- Stats Cards -->
-    <div class="row mb-4">
+    <div class="row g-4 mb-4">
         <!-- Watchlist Card -->
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Watchlist Stocks</h5>
-                    <h2 class="mb-0">{{ watchlist|length }}</h2>
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card" style="background: var(--primary-gradient);">
+                <div class="card-body position-relative">
+                    <h5 class="card-title">📊 Watchlist</h5>
+                    <h2 class="display-4">{{ watchlist|length }}</h2>
+                    <p class="mb-0 opacity-75">Stocks tracked</p>
+                    <div class="stat-icon">📈</div>
                 </div>
             </div>
         </div>
 
         <!-- Alerts Card -->
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Active Alerts</h5>
-                    <h2 class="mb-0">{{ alert_count }}</h2>
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card" style="background: var(--success-gradient);">
+                <div class="card-body position-relative">
+                    <h5 class="card-title">🔔 Active Alerts</h5>
+                    <h2 class="display-4">{{ alert_count }}</h2>
+                    <p class="mb-0 opacity-75">Price alerts</p>
+                    <div class="stat-icon">⚡</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Stocks Card -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card" style="background: var(--warning-gradient);">
+                <div class="card-body position-relative">
+                    <h5 class="card-title">📈 Total Stocks</h5>
+                    <h2 class="display-4">{{ all_stocks|length }}</h2>
+                    <p class="mb-0 opacity-75">Available</p>
+                    <div class="stat-icon">💹</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Action Card -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card" style="background: var(--info-gradient);">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <h6 class="mb-3">Quick Actions</h6>
+                    <a href="{{ url_for('watchlist') }}" class="btn btn-light btn-sm mb-2">
+                        <i class="bi bi-plus-circle"></i> Add Stock
+                    </a>
+                    <a href="{{ url_for('alerts') }}" class="btn btn-light btn-sm">
+                        <i class="bi bi-bell"></i> Create Alert
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Watchlist Price Trends -->
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-soft mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Watchlist Price Trends</h5>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-sm btn-primary active" onclick="loadCharts('1h')">1 Hour</button>
+            <h5 class="mb-0"><i class="bi bi-graph-up"></i> Watchlist Price Trends</h5>
+            <div class="btn-group shadow-sm" role="group">
+                <button type="button" class="btn btn-sm btn-primary" onclick="loadCharts('1h')">1 Hour</button>
                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="loadCharts('24h')">24 Hours</button>
                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="loadCharts('7d')">7 Days</button>
             </div>
         </div>
         <div class="card-body">
             {% if watchlist %}
-                <div id="chartContainer">
+                <div id="chartContainer" class="row g-3">
                     <!-- Charts will be loaded here via JavaScript -->
                 </div>
             {% else %}
-                <div class="text-center py-5">
-                    <p class="text-muted">📊 No stocks in your watchlist yet</p>
-                    <a href="{{ url_for('watchlist') }}" class="btn btn-primary">Add Stocks</a>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📊</div>
+                    <h4>No stocks in your watchlist yet</h4>
+                    <p class="mb-4">Start tracking stocks to see price trends and charts</p>
+                    <a href="{{ url_for('watchlist') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plus-circle"></i> Add Your First Stock
+                    </a>
                 </div>
             {% endif %}
         </div>
     </div>
 
-    <!-- Quick Add Stock -->
-    <div class="card shadow-sm">
-        <div class="card-header">
-            <h5 class="mb-0">Quick Add to Watchlist</h5>
+    <!-- Quick Add Stock + Recent Activity -->
+    <div class="row g-4">
+        <!-- Quick Add Stock -->
+        <div class="col-lg-6">
+            <div class="card shadow-soft hover-lift">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-lightning-charge"></i> Quick Add to Watchlist</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_to_watchlist') }}" class="row g-3">
+                        <div class="col-md-9">
+                            <select class="form-select form-select-lg" name="stock_symbol" required>
+                                <option value="">🔍 Select a stock...</option>
+                                {% for stock in all_stocks %}
+                                    <option value="{{ stock.stock_symbol }}">
+                                        {{ stock.stock_symbol }} - {{ stock.stock_name }}
+                                        <span class="text-muted">(${{ stock.current_price|round(2) }})</span>
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-success w-100 btn-lg">
+                                <i class="bi bi-plus-lg"></i> Add
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <form method="POST" action="{{ url_for('add_to_watchlist') }}" class="row g-3">
-                <div class="col-md-10">
-                    <select class="form-select" name="stock_symbol" required>
-                        <option value="">Select a stock...</option>
-                        {% for stock in all_stocks %}
-                            <option value="{{ stock.stock_symbol }}">
-                                {{ stock.stock_symbol }} - {{ stock.stock_name }} (${{ stock.current_price|round(2) }})
-                            </option>
-                        {% endfor %}
-                    </select>
+
+        <!-- My Watchlist Preview -->
+        <div class="col-lg-6">
+            <div class="card shadow-soft hover-lift">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-star"></i> My Watchlist</h5>
+                    <a href="{{ url_for('watchlist') }}" class="btn btn-sm btn-outline-primary">View All</a>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Add</button>
+                <div class="card-body">
+                    {% if watchlist %}
+                        <div class="list-group list-group-flush">
+                            {% for stock in watchlist[:5] %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0 border-0">
+                                <div>
+                                    <strong class="stock-symbol">{{ stock.stock_symbol }}</strong>
+                                    <small class="text-muted d-block">{{ stock.stock_name }}</small>
+                                </div>
+                                <div class="text-end">
+                                    <div class="fw-bold">${{ stock.current_price|round(2) }}</div>
+                                    <span class="badge {% if stock.change_percent >= 0 %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if stock.change_percent >= 0 %}+{% endif %}{{ stock.change_percent|round(2) }}%
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <p class="text-muted mb-0">No stocks in watchlist</p>
+                        </div>
+                    {% endif %}
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -86,6 +163,7 @@
 
 {% block chart_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 {% endblock %}
 
 {% block extra_js %}
@@ -99,12 +177,10 @@ async function loadCharts(range = '1h') {
 
     // Update active button
     document.querySelectorAll('.btn-group .btn').forEach(btn => {
-        btn.classList.remove('active');
+        btn.classList.remove('active', 'btn-primary');
         btn.classList.add('btn-outline-primary');
-        btn.classList.remove('btn-primary');
     });
-    event.target.classList.add('active');
-    event.target.classList.add('btn-primary');
+    event.target.classList.add('active', 'btn-primary');
     event.target.classList.remove('btn-outline-primary');
 
     const watchlistStocks = {{ watchlist|tojson }};
@@ -136,18 +212,34 @@ async function loadStockChart(symbol, range) {
             return;
         }
 
-        // Create canvas
+        // Create chart card
         const chartContainer = document.getElementById('chartContainer');
-        const chartDiv = document.createElement('div');
-        chartDiv.className = 'mb-4';
-        chartDiv.innerHTML = `
-            <h6 class="text-muted">${symbol}</h6>
-            <canvas id="chart-${symbol}"></canvas>
+        const chartCol = document.createElement('div');
+        chartCol.className = 'col-lg-6';
+        chartCol.innerHTML = `
+            <div class="chart-container shadow-sm">
+                <h6><span class="stock-symbol">${symbol}</span> <small class="text-muted">Price Trend</small></h6>
+                <canvas id="chart-${symbol}"></canvas>
+            </div>
         `;
-        chartContainer.appendChild(chartDiv);
+        chartContainer.appendChild(chartCol);
+
+        // Determine gradient color based on price trend
+        const priceChange = data[data.length - 1].price - data[0].price;
+        const isPositive = priceChange >= 0;
 
         // Create chart
         const ctx = document.getElementById(`chart-${symbol}`).getContext('2d');
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        if (isPositive) {
+            gradient.addColorStop(0, 'rgba(56, 239, 125, 0.3)');
+            gradient.addColorStop(1, 'rgba(56, 239, 125, 0.01)');
+        } else {
+            gradient.addColorStop(0, 'rgba(244, 92, 67, 0.3)');
+            gradient.addColorStop(1, 'rgba(244, 92, 67, 0.01)');
+        }
+
         charts[symbol] = new Chart(ctx, {
             type: 'line',
             data: {
@@ -155,10 +247,16 @@ async function loadStockChart(symbol, range) {
                 datasets: [{
                     label: `${symbol} Price`,
                     data: data.map(d => d.price),
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                    tension: 0.1,
-                    fill: true
+                    borderColor: isPositive ? '#38ef7d' : '#f45c43',
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: isPositive ? '#38ef7d' : '#f45c43',
+                    pointHoverBorderWidth: 2,
+                    pointHoverBorderColor: '#fff'
                 }]
             },
             options: {
@@ -166,13 +264,59 @@ async function loadStockChart(symbol, range) {
                 maintainAspectRatio: true,
                 plugins: {
                     legend: {
-                        display: true
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        cornerRadius: 8,
+                        titleFont: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 13
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                return ' $' + context.parsed.y.toFixed(2);
+                            }
+                        }
                     }
                 },
                 scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 8,
+                            font: {
+                                size: 11
+                            }
+                        }
+                    },
                     y: {
-                        beginAtZero: false
+                        beginAtZero: false,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toFixed(2);
+                            },
+                            font: {
+                                size: 11
+                            }
+                        }
                     }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
                 }
             }
         });
