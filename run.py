@@ -33,7 +33,7 @@ def main():
 
     try:
         subprocess.run(
-            [sys.executable, str(ROOT_DIR / "backend" / "app_jinja2.py")],
+            [sys.executable, str(ROOT_DIR / "backend" / "app.py")],
             cwd=str(ROOT_DIR / "backend")
         )
     except KeyboardInterrupt:
