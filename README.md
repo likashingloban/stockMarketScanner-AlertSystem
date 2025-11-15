@@ -1,268 +1,371 @@
-# 📈 Stock Watch & Alert System
+# 📈 Stock Watch & Alert System - Jinja2版本
 
-股票監控與提醒 Web 應用程式 - 前後端分離版本
-
----
-
-## 🎯 專案特點
-
-- ✅ **前後端完全分離** - 後端 Flask API + 前端原生 HTML/CSS/JavaScript
-- ✅ **不使用框架** - 無需學習 React/Vue,適合初學者
-- ✅ **RESTful API** - 標準 JSON 格式通訊
-- ✅ **兩人協作友好** - 前後端可獨立開發
-- ✅ **符合課程要求** - Flask 30% + Bootstrap 10% + UI/UX 30% + Extra 20%
+> 基于Flask + Jinja2模板引擎的股票监控与警报系统
+>
+> **分支**: `feature/jinja2-refactor`
 
 ---
 
-## 📁 專案結構
+## 🎯 项目简介
+
+这是一个使用**Flask框架**和**Jinja2模板引擎**开发的股票监控与警报Web应用，采用**服务端渲染（SSR）**架构，符合Python Web开发课程要求。
+
+### 核心特性
+
+✅ **Flask + Jinja2**：服务端模板渲染
+✅ **Bootstrap 5**：响应式设计
+✅ **SQLite数据库**：用户、股票、警报数据管理
+✅ **Session管理**：安全的用户认证
+✅ **实时更新**：后台线程自动更新股价
+✅ **前后端分离开发**：保持代码清晰，部署时自动整合
+
+---
+
+## 🚀 快速开始
+
+### 1. 克隆项目并切换分支
+
+```bash
+cd stockMarketScanner&AlertSystem
+git checkout feature/jinja2-refactor
+```
+
+### 2. 一键启动
+
+```bash
+python run.py
+```
+
+### 3. 访问应用
+
+打开浏览器：http://localhost:5001
+
+---
+
+## 📁 项目结构
 
 ```
 stockMarketScanner&AlertSystem/
 │
-├── backend/                # 後端 Flask API
-│   ├── app.py             # 主程式 (API 端點)
-│   ├── database.py        # 資料庫初始化
-│   └── requirements.txt   # Python 依賴
+├── 📂 frontend_src/           # 🎨 前端源码（开发目录）
+│   ├── templates/             # Jinja2 模板
+│   │   ├── base.html          # 基础模板
+│   │   ├── login.html         # 登录页面
+│   │   ├── register.html      # 注册页面
+│   │   ├── dashboard.html     # 仪表板
+│   │   ├── watchlist.html     # 关注列表
+│   │   ├── alerts.html        # 警报管理
+│   │   ├── stock-detail.html  # 股票详情
+│   │   └── settings.html      # 设置页面
+│   └── static/                # 静态资源
+│       ├── css/style.css
+│       ├── js/config.js
+│       └── js/modal.js
 │
-├── frontend/               # 前端 HTML/CSS/JS
-│   ├── index.html         # 登入頁面
-│   ├── watchlist.html     # 觀察清單
-│   ├── css/style.css      # 樣式
-│   └── js/config.js       # API 配置
+├── 📂 backend/                # 🔧 后端代码
+│   ├── app_jinja2.py          # ⭐ Flask应用（Jinja2版本）
+│   ├── database.py            # 数据库初始化
+│   ├── stock_app.db           # SQLite数据库
+│   ├── templates/             # 🚫 自动生成（运行时挂载）
+│   └── static/                # 🚫 自动生成（运行时挂载）
 │
-├── PRD.md                 # 產品需求文檔
-├── ARCHITECTURE.md        # 架構說明文檔
-└── README.md              # 本文件
+├── 📜 deploy.py               # ⭐ 部署脚本
+├── 📜 run.py                  # ⭐ 快速启动脚本
+├── 📜 .gitignore              # Git忽略规则
+│
+├── 📖 JINJA2_ARCHITECTURE.md  # 详细架构文档
+├── 📖 QUICKSTART_JINJA2.md    # 快速开始指南
+├── 📖 REFACTOR_SUMMARY.md     # 重构总结
+└── 📖 ARCHITECTURE_COMPARISON.md  # 架构对比
 ```
 
 ---
 
-## 🚀 快速啟動
+## 🛠️ 开发指南
 
-### 步驟 1: 啟動後端
+### 修改前端代码
+
+1. **编辑** `frontend_src/templates/*.html` 或 `frontend_src/static/*`
+
+2. **重新部署**：
+   ```bash
+   python deploy.py
+   ```
+
+3. **刷新浏览器**查看效果
+
+**推荐**：使用监听模式自动部署
+```bash
+python deploy.py --watch
+```
+
+### 修改后端代码
+
+1. **编辑** `backend/app_jinja2.py`
+
+2. Flask会自动重启（debug模式）
+
+3. **刷新浏览器**查看效果
+
+---
+
+## 📋 功能列表
+
+### ✅ 已实现
+
+- ✅ 用户注册与登录
+- ✅ Session管理
+- ✅ 股票关注列表
+- ✅ 价格警报设置
+- ✅ 实时股价更新（后台线程）
+- ✅ 响应式设计（Bootstrap 5）
+- ✅ Flash消息通知
+- ✅ 密码修改
+
+### 🚧 待完善
+
+- [ ] 股票价格趋势图（Chart.js）
+- [ ] 邮件警报通知
+- [ ] 数据导出（CSV/Excel）
+- [ ] 二维码分享功能
+
+---
+
+## 🎓 课程要求对应
+
+根据课程评分标准：
+
+### ✅ Flask (30%)
+- ✅ 数据库操作（SQLite）
+- ✅ **模板引擎**（Jinja2）⭐
+- ✅ 路由和视图函数
+- ✅ 表单处理（POST）
+- ✅ **Session管理**⭐
+
+### ✅ Bootstrap (10%)
+- ✅ 响应式设计（RWD）
+- ✅ Bootstrap组件（卡片、表单、导航栏、模态框）
+- ✅ Bootstrap布局（Grid系统）
+
+### ✅ UI (10%)
+- ✅ HTML5语义化标签
+- ✅ 自定义CSS样式
+- ✅ 配色方案和间距
+
+### ✅ UX (20%)
+- ✅ 表单交互和验证
+- ✅ Flash消息反馈
+- ✅ 登录状态保持
+- ✅ 友好的错误提示
+
+### 🚧 额外功能 (20% = 4×5%)
+1. ✅ **实时股价更新**（后台线程）
+2. 📊 **图表可视化**（Chart.js）- 待实现
+3. 📧 **邮件警报**（SMTP）- 待实现
+4. 📥 **数据导出**（Pandas）- 待实现
+
+---
+
+## 🎨 Jinja2 模板示例
+
+### 模板继承
+
+**base.html**:
+```html
+<!DOCTYPE html>
+<html>
+<head>{% block head %}{% endblock %}</head>
+<body>
+    {% block navbar %}{% endblock %}
+    {% block content %}{% endblock %}
+</body>
+</html>
+```
+
+**login.html**:
+```html
+{% extends "base.html" %}
+{% block content %}
+  <form method="POST">
+    <input name="username">
+    <button>Login</button>
+  </form>
+{% endblock %}
+```
+
+### 变量渲染
+
+```html
+<h1>Welcome, {{ current_user.username }}!</h1>
+<p>Price: ${{ stock.current_price|round(2) }}</p>
+```
+
+### 条件和循环
+
+```html
+{% if current_user %}
+  <p>Hello, {{ current_user.username }}</p>
+{% endif %}
+
+{% for stock in watchlist %}
+  <tr>
+    <td>{{ stock.stock_symbol }}</td>
+    <td>${{ stock.current_price }}</td>
+  </tr>
+{% endfor %}
+```
+
+### URL生成
+
+```html
+<a href="{{ url_for('dashboard') }}">Dashboard</a>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+```
+
+---
+
+## 🔧 常用命令
 
 ```bash
-# 進入後端目錄
+# 单次部署前端
+python deploy.py
+
+# 监听模式（自动部署）
+python deploy.py --watch
+
+# 一键启动（部署 + 启动Flask）
+python run.py
+
+# 手动启动Flask
 cd backend
-
-# 安裝依賴
-pip install -r requirements.txt
-
-# 初始化資料庫
-python database.py
-
-# 啟動 Flask API 伺服器
-python app.py
+python app_jinja2.py
 ```
-
-✅ 後端將運行在 `http://localhost:5000`
 
 ---
 
-### 步驟 2: 啟動前端
+## ⚠️ 重要提示
 
-**方法 1: 使用 VS Code Live Server (推薦)**
-1. 在 VS Code 安裝 "Live Server" 擴充套件
-2. 右鍵點擊 `frontend/index.html`
-3. 選擇 "Open with Live Server"
+### ❌ 不要直接修改
+- `backend/templates/`
+- `backend/static/`
 
-✅ 前端將運行在 `http://localhost:5500`
+这些目录是由 `deploy.py` 自动生成的，手动修改会在下次部署时被覆盖！
 
-**方法 2: 使用 Python HTTP Server**
+### ✅ 始终修改
+- `frontend_src/templates/`
+- `frontend_src/static/`
+
+---
+
+## 🌳 分支说明
+
+### `main` 分支
+- 原始架构：RESTful API + 前端JavaScript
+- 前后端完全分离
+- 使用localStorage存储用户信息
+
+### `feature/jinja2-refactor` 分支（当前）
+- Jinja2模板引擎架构
+- 服务端渲染（SSR）
+- 使用Session管理用户状态
+- **推荐用于课程项目** ⭐
+
+切换分支：
 ```bash
-cd frontend
-python -m http.server 8080
-```
+# 切换到API模式
+git checkout main
 
-✅ 前端將運行在 `http://localhost:8080`
-
----
-
-### 步驟 3: 測試
-
-1. 開啟瀏覽器訪問前端 URL
-2. 註冊新帳戶
-3. 登入系統
-4. 新增股票到觀察清單
-5. 查看股票詳情
-
----
-
-## 📡 API 端點
-
-### 認證
-- `POST /api/auth/register` - 用戶註冊
-- `POST /api/auth/login` - 用戶登入
-
-### 觀察清單
-- `GET /api/watchlist/<user_id>` - 獲取觀察清單
-- `POST /api/watchlist` - 新增股票
-- `DELETE /api/watchlist/<id>` - 刪除股票
-
-### 股票數據
-- `GET /api/stock/<symbol>` - 獲取股票詳情
-- `GET /api/stock/<symbol>/history` - 獲取歷史數據
-
-### 提醒
-- `GET /api/alerts/<user_id>` - 獲取提醒列表
-- `POST /api/alerts` - 新增提醒
-- `DELETE /api/alerts/<id>` - 刪除提醒
-- `GET /api/alerts/check/<user_id>` - 檢查觸發的提醒
-
-詳細 API 文檔請查看 `ARCHITECTURE.md`
-
----
-
-## 🔄 前後端交互流程
-
-```
-前端 (瀏覽器)              後端 (Flask API)           資料庫 (SQLite)
-     │                           │                           │
-     │  HTTP Request (JSON)      │                           │
-     ├──────────────────────────>│                           │
-     │                           │  SQL Query                │
-     │                           ├──────────────────────────>│
-     │                           │                           │
-     │                           │  Data                     │
-     │                           │<──────────────────────────┤
-     │  JSON Response            │                           │
-     │<──────────────────────────┤                           │
-     │                           │                           │
-     │  JavaScript 渲染 HTML     │                           │
-     └───────────────────────────┘                           │
+# 切换到Jinja2模式
+git checkout feature/jinja2-refactor
 ```
 
 ---
 
-## 👥 兩人協作開發
+## 📚 相关文档
 
-### 後端開發者
-1. 負責 `backend/` 資料夾
-2. 編寫 API 端點
-3. 測試 API (使用 Postman)
-4. 提供 API 文檔給前端
-
-### 前端開發者
-1. 負責 `frontend/` 資料夾
-2. 設計頁面 UI (HTML/CSS)
-3. 編寫 JavaScript 調用 API
-4. 處理用戶交互
-
-### 協作流程
-1. **後端先行**: 建立 API 並測試
-2. **前端對接**: 根據 API 文檔調用接口
-3. **聯調測試**: 同時運行前後端,測試完整流程
+| 文档 | 说明 |
+|------|------|
+| [JINJA2_ARCHITECTURE.md](JINJA2_ARCHITECTURE.md) | 详细架构说明 |
+| [QUICKSTART_JINJA2.md](QUICKSTART_JINJA2.md) | 快速开始指南 |
+| [REFACTOR_SUMMARY.md](REFACTOR_SUMMARY.md) | 重构总结 |
+| [ARCHITECTURE_COMPARISON.md](ARCHITECTURE_COMPARISON.md) | API vs Jinja2对比 |
+| [PRD.md](PRD.md) | 产品需求文档 |
 
 ---
 
-## 🛠️ 技術棧
+## 🐛 常见问题
 
-### 後端
-- Python 3.x
-- Flask 3.0
-- Flask-CORS
-- SQLite
-- Werkzeug (密碼加密)
+### Q: 为什么访问页面显示404？
 
-### 前端
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-- Bootstrap 5
-- Chart.js (圖表)
+A: 确保已经运行了部署脚本：
+```bash
+python deploy.py
+```
 
----
+### Q: 修改前端代码不生效？
 
-## 📚 文檔
+A: 需要重新部署：
+```bash
+python deploy.py
+```
 
-- **PRD.md** - 完整的產品需求文檔
-- **ARCHITECTURE.md** - 詳細的架構說明和範例
-- **README.md** - 本快速啟動指南
+或使用监听模式：
+```bash
+python deploy.py --watch
+```
 
----
+### Q: 如何重置数据库？
 
-## 🎓 學習重點
+A: 重新初始化数据库：
+```bash
+cd backend
+python database.py
+```
 
-### 後端 (Flask)
-- RESTful API 設計
-- JSON 數據處理
-- 資料庫操作 (SQLite)
-- CORS 處理
+### Q: 监听模式是什么？
 
-### 前端 (原生 JS)
-- Fetch API 使用
-- JSON 解析
-- DOM 操作
-- LocalStorage 使用
-
-### 整合
-- 前後端數據傳遞
-- 用戶認證流程
-- 錯誤處理
+A: 运行 `python deploy.py --watch` 后，脚本会每2秒检测 `frontend_src` 的文件变化，自动重新部署。
 
 ---
 
-## ❓ 常見問題
+## 🎯 下一步计划
 
-### Q: 為什麼選擇前後端分離?
-**A**:
-- 更接近實際開發流程
-- 兩人可以同時開發
-- 易於維護和擴展
-- 為未來學習 React/Vue 打基礎
+### 高优先级
+1. [ ] 完成所有页面的Jinja2模板改造
+2. [ ] 添加Chart.js图表功能
+3. [ ] 测试所有功能路径
 
-### Q: 為什麼不用 React/Vue?
-**A**:
-- 降低學習成本
-- 專注理解前後端分離概念
-- 原生 JavaScript 是基礎
+### 中优先级
+4. [ ] 实现邮件警报通知
+5. [ ] 添加数据导出功能（CSV/Excel）
+6. [ ] 优化UI/UX
 
-### Q: 遇到 CORS 錯誤怎麼辦?
-**A**:
-- 確保後端已安裝 `flask-cors`
-- 確保前端使用 HTTP Server (不是直接開啟 HTML)
-- 檢查 API URL 是否正確
-
-### Q: 如何測試 API?
-**A**:
-- 使用 Postman 或 Insomnia
-- 使用瀏覽器開發者工具 (Network tab)
-- 查看 Flask 終端輸出
+### 低优先级
+7. [ ] 准备演示PPT
+8. [ ] 录制功能演示视频
 
 ---
 
-## 📝 開發檢查清單
+## 👥 贡献者
 
-### 後端
-- [ ] 資料庫已初始化
-- [ ] 所有 API 端點已實現
-- [ ] API 已測試通過 (Postman)
-- [ ] CORS 已正確配置
-
-### 前端
-- [ ] 所有頁面已建立
-- [ ] API 配置正確
-- [ ] 用戶認證流程正常
-- [ ] 所有功能可正常使用
-
-### 整合
-- [ ] 前後端可正常通訊
-- [ ] 錯誤處理完善
-- [ ] UI/UX 友好
-- [ ] 響應式設計測試通過
+- **开发者**: [Your Name]
+- **指导**: Raymond Tsang
+- **课程**: Certificate Programme in Python Programming
 
 ---
 
-## 📄 授權
+## 📄 许可证
 
-本專案僅供教育用途。
+本项目仅用于学习和课程作业目的。
 
 ---
 
-## 🎉 下一步
+## 📞 联系方式
 
-1. 查看 `ARCHITECTURE.md` 了解詳細架構
-2. 查看 `PRD.md` 了解完整需求
-3. 開始編寫程式碼!
+如有问题，请查阅相关文档或联系讲师。
 
-**祝開發順利! 💪**
+---
+
+**最后更新**: 2025-11-15
+**分支**: feature/jinja2-refactor
+**状态**: 开发中
