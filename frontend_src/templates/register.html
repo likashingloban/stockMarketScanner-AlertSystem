@@ -1,56 +1,225 @@
 {% extends "base.html" %}
 
-{% block title %}Register - Stock Watch{% endblock %}
+{% block title %}Register - Stock Market Scanner{% endblock %}
 
-{% block body_class %}bg-light{% endblock %}
+{% block body_class %}{% endblock %}
 
 {% block navbar %}{% endblock %}
 
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .register-wrapper {
+        width: 100%;
+    }
+
+    .register-card {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .register-header {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        margin: -1px -1px 2rem -1px;
+    }
+
+    .register-header i {
+        font-size: 4rem;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .register-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 1rem 0 0.5rem;
+    }
+
+    .form-control:focus {
+        border-color: #11998e;
+        box-shadow: 0 0 0 0.25rem rgba(17, 153, 142, 0.15);
+    }
+
+    .password-strength {
+        height: 4px;
+        background: #e9ecef;
+        border-radius: 2px;
+        margin-top: 0.5rem;
+        overflow: hidden;
+    }
+
+    .password-strength-bar {
+        height: 100%;
+        width: 0%;
+        transition: all 0.3s ease;
+        border-radius: 2px;
+    }
+
+    .strength-weak {
+        background: linear-gradient(to right, #eb3349, #f45c43);
+        width: 33%;
+    }
+
+    .strength-medium {
+        background: linear-gradient(to right, #f093fb, #f5576c);
+        width: 66%;
+    }
+
+    .strength-strong {
+        background: linear-gradient(to right, #11998e, #38ef7d);
+        width: 100%;
+    }
+
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        animation: float linear infinite;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <div class="text-center mb-4">
-                        <h1 class="h3 mb-3 fw-bold text-primary">📈 Stock Watch</h1>
-                        <p class="text-muted">Create your account</p>
+<!-- Animated Background Particles -->
+<div class="particles"></div>
+
+<div class="register-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <!-- Register Card -->
+                <div class="card register-card">
+                    <!-- Header -->
+                    <div class="register-header">
+                        <i class="bi bi-person-plus-fill"></i>
+                        <h1>Create Your Account</h1>
+                        <p class="mb-0 opacity-75">Join Stock Market Scanner</p>
                     </div>
 
-                    <form method="POST" action="{{ url_for('register') }}" id="registerForm">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required minlength="3" maxlength="20">
-                            <small class="text-muted">3-20 characters</small>
-                        </div>
+                    <div class="card-body px-4 pb-4">
+                        <!-- Register Form -->
+                        <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+                            <div class="mb-3">
+                                <label for="username" class="form-label fw-semibold">
+                                    <i class="bi bi-person-circle text-success"></i> Username
+                                </label>
+                                <input type="text" class="form-control form-control-lg" id="username" name="username"
+                                       required minlength="3" maxlength="20" placeholder="Choose a username">
+                                <small class="text-muted">3-20 characters</small>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label fw-semibold">
+                                    <i class="bi bi-envelope text-success"></i> Email Address
+                                </label>
+                                <input type="email" class="form-control form-control-lg" id="email" name="email"
+                                       required placeholder="your@email.com">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required minlength="6">
-                            <small class="text-muted">Minimum 6 characters</small>
-                        </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label fw-semibold">
+                                    <i class="bi bi-shield-lock text-success"></i> Password
+                                </label>
+                                <input type="password" class="form-control form-control-lg" id="password" name="password"
+                                       required minlength="6" placeholder="Create a strong password">
+                                <div class="password-strength">
+                                    <div class="password-strength-bar" id="strengthBar"></div>
+                                </div>
+                                <small class="text-muted" id="strengthText">Minimum 6 characters</small>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                        </div>
+                            <div class="mb-4">
+                                <label for="confirmPassword" class="form-label fw-semibold">
+                                    <i class="bi bi-shield-check text-success"></i> Confirm Password
+                                </label>
+                                <input type="password" class="form-control form-control-lg" id="confirmPassword"
+                                       name="confirmPassword" required placeholder="Re-enter your password">
+                            </div>
 
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">Register</button>
-                        </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-check-circle me-2"></i>Create Account
+                                </button>
+                            </div>
 
-                        <div class="text-center">
-                            <small class="text-muted">
-                                Already have an account?
-                                <a href="{{ url_for('login') }}" class="text-decoration-none">Login</a>
-                            </small>
-                        </div>
-                    </form>
+                            <div class="text-center">
+                                <small class="text-muted">
+                                    Already have an account?
+                                    <a href="{{ url_for('login') }}" class="text-decoration-none fw-bold text-success">
+                                        Sign In <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-center mt-4">
+                    <small class="text-white-50">
+                        © 2025 Python Application Project
+                    </small>
                 </div>
             </div>
         </div>
@@ -60,15 +229,69 @@
 
 {% block extra_js %}
 <script>
-    // 客户端密码验证
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
+// Create animated particles
+function createParticles() {
+    const particles = document.querySelector('.particles');
+    const particleCount = 15;
 
-        if (password !== confirmPassword) {
-            e.preventDefault();
-            alert('Passwords do not match!');
-        }
-    });
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const size = Math.random() * 60 + 20;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+
+        particles.appendChild(particle);
+    }
+}
+
+createParticles();
+
+// Password strength checker
+const passwordInput = document.getElementById('password');
+const strengthBar = document.getElementById('strengthBar');
+const strengthText = document.getElementById('strengthText');
+
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+
+    if (password.length >= 6) strength++;
+    if (password.length >= 10) strength++;
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+    if (/\d/.test(password)) strength++;
+    if (/[^a-zA-Z\d]/.test(password)) strength++;
+
+    strengthBar.className = 'password-strength-bar';
+
+    if (strength <= 2) {
+        strengthBar.classList.add('strength-weak');
+        strengthText.textContent = 'Weak password';
+        strengthText.style.color = '#eb3349';
+    } else if (strength <= 4) {
+        strengthBar.classList.add('strength-medium');
+        strengthText.textContent = 'Medium password';
+        strengthText.style.color = '#f5576c';
+    } else {
+        strengthBar.classList.add('strength-strong');
+        strengthText.textContent = 'Strong password';
+        strengthText.style.color = '#11998e';
+    }
+});
+
+// Confirm password validation
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+    }
+});
 </script>
 {% endblock %}

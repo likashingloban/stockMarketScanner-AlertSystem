@@ -1,50 +1,240 @@
 {% extends "base.html" %}
 
-{% block title %}登入 - Stock Watch{% endblock %}
+{% block title %}Login - Stock Market Scanner{% endblock %}
 
-{% block body_class %}bg-light{% endblock %}
+{% block body_class %}{% endblock %}
 
 {% block navbar %}{% endblock %}
 
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .login-wrapper {
+        width: 100%;
+    }
+
+    .login-card {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        margin: -1px -1px 2rem -1px;
+    }
+
+    .login-header i {
+        font-size: 4rem;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    .login-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 1rem 0 0.5rem;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+    }
+
+    .feature-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 20px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+
+    .feature-badge:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+    }
+
+    .feature-badge i {
+        margin-right: 0.5rem;
+        color: #667eea;
+    }
+
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        animation: float linear infinite;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-5">
-            <!-- 登入卡片 -->
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <!-- Logo and Title -->
-                    <div class="text-center mb-4">
-                        <h1 class="h3 mb-3 fw-bold text-primary">📈 Stock Watch</h1>
-                        <p class="text-muted">Stock Monitoring & Alert System</p>
+<!-- Animated Background Particles -->
+<div class="particles"></div>
+
+<div class="login-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
+                <!-- Login Card -->
+                <div class="card login-card">
+                    <!-- Header -->
+                    <div class="login-header">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        <h1>Stock Market Scanner</h1>
+                        <p class="mb-0 opacity-75">Real-time Monitoring & Alerts</p>
                     </div>
 
-                    <!-- Login Form -->
-                    <form method="POST" action="{{ url_for('login') }}">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
+                    <div class="card-body px-4 pb-4">
+                        <!-- Login Form -->
+                        <form method="POST" action="{{ url_for('login') }}">
+                            <div class="mb-3">
+                                <label for="username" class="form-label fw-semibold">
+                                    <i class="bi bi-person-circle text-primary"></i> Username
+                                </label>
+                                <input type="text" class="form-control form-control-lg" id="username" name="username"
+                                       placeholder="Enter your username" required autofocus>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-semibold">
+                                    <i class="bi bi-shield-lock text-primary"></i> Password
+                                </label>
+                                <input type="password" class="form-control form-control-lg" id="password" name="password"
+                                       placeholder="Enter your password" required>
+                            </div>
 
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">Login</button>
-                        </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                                </button>
+                            </div>
 
-                        <div class="text-center">
-                            <small class="text-muted">
-                                Don't have an account?
-                                <a href="{{ url_for('register') }}" class="text-decoration-none">Register now</a>
-                            </small>
-                        </div>
-                    </form>
+                            <div class="text-center">
+                                <small class="text-muted">
+                                    Don't have an account?
+                                    <a href="{{ url_for('register') }}" class="text-decoration-none fw-bold text-primary">
+                                        Create Account <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="text-center mt-4">
+                    <div class="feature-badge">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Secure Login</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="bi bi-lightning-charge"></i>
+                        <span>Real-time Data</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="bi bi-bell"></i>
+                        <span>Smart Alerts</span>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-center mt-4">
+                    <small class="text-white-50">
+                        © 2025 Python Application Project
+                    </small>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Create animated particles
+function createParticles() {
+    const particles = document.querySelector('.particles');
+    const particleCount = 15;
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const size = Math.random() * 60 + 20;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+
+        particles.appendChild(particle);
+    }
+}
+
+createParticles();
+</script>
 {% endblock %}
