@@ -346,23 +346,6 @@ A: 运行 `python deploy.py --watch` 后，脚本会每2秒检测 `frontend_src`
 
 ---
 
-## 👥 贡献者
-
-- **开发者**: [Your Name]
-- **指导**: Raymond Tsang
-- **课程**: Certificate Programme in Python Programming
-
----
-
-## 📄 许可证
-
-本项目仅用于学习和课程作业目的。
-
----
-
-## 📞 联系方式
-
-如有问题，请查阅相关文档或联系讲师。
 
 ---
 
